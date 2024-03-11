@@ -64,10 +64,8 @@ export class UserService {
             throw new NotFoundError('Usuário não encontrado')
         }
         
-        const hashPassword = await bcrypt.hash(usuario.senha, 10)
-        const updatedUser = { ...usuario, password: hashPassword }
-        await userRepository.update(id, updatedUser);
-        return updatedUser
+        const updateduser = await userRepository.update(id, usuario);
+        return usuario
     }
 
 

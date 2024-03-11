@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Endereco } from './Endereco'
 
 @Entity('usuarios')
 export class User {
@@ -32,9 +33,15 @@ export class User {
 	@Column({ type: 'text' })
 	senha: string
 
+	@Column({ type: 'bool' })
+	isAdmin: boolean
+
 	@Column({ type: 'date' })
 	criado_em: Date
 
 	@Column({ type: 'date' })
 	atualizado_em: Date
+
+	@OneToMany(type => Endereco, end => end.usuario_id) enderecos: Endereco[];  
+
 }
