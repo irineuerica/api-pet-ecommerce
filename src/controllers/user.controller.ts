@@ -21,10 +21,11 @@ export class UserController {
 		return res.json(user)
 	}
 
-	async delete(req: Request, res: Response) {
+	async changeStatus(req: Request, res: Response) {
 		const { id } = req.params
+		const { status } = req.body;
 		const userService = new UserService();
-		await userService.delete(Number(id))
+		await userService.changeStatus(status, Number(id))
 		return res.status(204).json()
 	}
 
@@ -42,5 +43,22 @@ export class UserController {
 		const users = await userService.list();
 		res.json(users);
 	}
+
+	async setAsAdmin(req: Request, res: Response) {
+		const { id } = req.params
+		const userService = new UserService();
+		const user = await userService.setAsAdmin(Number(id));
+
+		return res.json(user)
+	}
+
+	async change(req: Request, res: Response) {
+		const { id } = req.params
+		const userService = new UserService();
+		const user = await userService.setAsAdmin(Number(id));
+
+		return res.json(user)
+	}
+
 
 }

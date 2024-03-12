@@ -45,14 +45,16 @@ export class UserService {
         return userResult;
     }
 
-    async delete(id: Number) {
+    async changeStatus(status: boolean, id: number) {
         const user = await userRepository.findOneBy({ id: Number(id) })
 
         if (!user) {
             throw new NotFoundError('Usuário não encontrado')
         }
 
-        return await userRepository.delete({ id: Number(id) })
+        const newValue = {...user, status}
+
+        await userRepository.update(id, newValue)
     }
 
 
@@ -63,11 +65,10 @@ export class UserService {
         if (!user) {
             throw new NotFoundError('Usuário não encontrado')
         }
-        
-        const updateduser = await userRepository.update(id, usuario);
-        return usuario
+        const formattedUser = {...usuario, dataNascimento: new Date(usuario.dataNascimento)}
+        await userRepository.update(id, formattedUser);
+        return formattedUser
     }
-
 
 
     async list() : Promise<any[]> {
@@ -76,6 +77,17 @@ export class UserService {
             const { senha: _, ...userResult } = user;
             return userResult;
         })
+    }
+
+    async setAsAdmin(id: number) {
+        const user = await userRepository.findOneBy({id})
+
+        if (!user) {
+            throw new NotFoundError('Usuário não encontrado')
+        }
+
+        const newValue = {...user, isAdmin: true}
+        return await userRepository.update(id, newValue)
     }
 
 }

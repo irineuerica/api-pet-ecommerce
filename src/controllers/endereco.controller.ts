@@ -1,12 +1,15 @@
 import { Request, Response } from 'express'
 import { EnderecoService } from '../services/endereco.service';
+import { getAuthorization } from '../helpers/authorization.helper';
 
 export class EnderecoController {
 
 	async create(req: Request, res: Response) {
+		const {id} = getAuthorization(req, res)
 		const { endereco } = req.body;
 		const enderecoService = new EnderecoService();
-		return await enderecoService.create(endereco);
+		await enderecoService.create({endereco, id});
+		return res.status(204).json()
 	}
 
 	async show(req: Request, res: Response) {
@@ -33,8 +36,9 @@ export class EnderecoController {
 	}
 
 	async list(req: Request, res: Response) {
+		const {id} = getAuthorization(req, res)
 		const enderecoService = new EnderecoService();
-		const enderecos = await enderecoService.list();
+		const enderecos = await enderecoService.list(id);
 		res.json(enderecos);
 	}
 

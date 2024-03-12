@@ -42,6 +42,6 @@ export class User {
 	@Column({ type: 'date' })
 	atualizado_em: Date
 
-	@OneToMany(type => Endereco, end => end.usuario_id) enderecos: Endereco[];  
-
+	@OneToMany(() => Endereco, endereco => endereco.usuario)
+	enderecos: Endereco[];
 }

@@ -1,18 +1,19 @@
 import { NotFoundError } from '../helpers/errors.helper'
 import { IEndereco } from '../interfaces/IEndereco'
 import { enderecoRepository } from '../repositories/enderecoRepository'
+import { userRepository } from '../repositories/userRepository'
 
-type UpdateEnderecoProps = {
+type SaveEnderecoProps = {
     endereco: IEndereco
     id: number
 }
 
 
 export class EnderecoService {
-    async create(endereco: IEndereco) {
-
-        const newAddress = enderecoRepository.create(endereco)
-        await enderecoRepository.save(newAddress)
+    async create({endereco, id}: SaveEnderecoProps) {
+        const user = await userRepository.findBy({id})
+        const newAddress = enderecoRepository.create({...endereco, usuario: user[0]})
+        await enderecoRepository.save(newAddress,)
 
         return newAddress;
     }
@@ -38,7 +39,7 @@ export class EnderecoService {
     }
 
 
-    async update({ endereco, id }: UpdateEnderecoProps) {
+    async update({ endereco, id }: SaveEnderecoProps) {
 
         const address = await enderecoRepository.findOneBy({ id: Number(id) })
 
@@ -51,8 +52,10 @@ export class EnderecoService {
 
 
 
-    async list(): Promise<IEndereco[]> {
-        return await enderecoRepository.find();
+    async list(id: number): Promise<IEndereco[]> {
+        const enderecos = await enderecoRepository.find({
+            where: {usuario: {id: id}}});
+        return enderecos
 
     }
 

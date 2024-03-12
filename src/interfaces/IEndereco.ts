@@ -1,3 +1,4 @@
+import { IUsuario } from "./IUsuario";
 
 export interface IEndereco {
     id: number;
@@ -15,4 +16,5 @@ export interface IEndereco {
     cobranca: boolean
     criado_em: Date
     atualizado_em: Date
+    usuario: IUsuario
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from './User'
 
 @Entity('enderecos')
@@ -48,6 +48,9 @@ export class Endereco {
 	@Column({ type: 'date' })
 	atualizado_em: Date
 
-	@ManyToOne(type => User, usuario => usuario.id) usuario_id: User; 
+	@ManyToOne(() => User, usuario => usuario.enderecos, { eager: true })
+	@JoinColumn({ name: 'usuario_id', referencedColumnName: 'id' })
+	usuario: User;
+
 
 }
