@@ -45,7 +45,7 @@ export class UserService {
         return userResult;
     }
 
-    async changeStatus(status: boolean, id: number) {
+    async alterarStatus(status: boolean, id: number) {
         const user = await userRepository.findOneBy({ id: Number(id) })
 
         if (!user) {
@@ -55,6 +55,19 @@ export class UserService {
         const newValue = {...user, status}
 
         await userRepository.update(id, newValue)
+    }
+
+    async alterarSenha(senha: string, id: number) {
+        const user = await userRepository.findOneBy({ id: Number(id) })
+
+        if (!user) {
+            throw new NotFoundError('Usuário não encontrado')
+        }
+
+        const hashPassword = await bcrypt.hash(senha, 10)
+        const newUser = userRepository.create({...user, senha: hashPassword})
+
+        await userRepository.update(id, newUser)
     }
 
 

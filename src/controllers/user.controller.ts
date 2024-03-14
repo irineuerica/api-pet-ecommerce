@@ -21,11 +21,20 @@ export class UserController {
 		return res.json(user)
 	}
 
-	async changeStatus(req: Request, res: Response) {
+	async alterarStatus(req: Request, res: Response) {
 		const { id } = req.params
 		const { status } = req.body;
 		const userService = new UserService();
-		await userService.changeStatus(status, Number(id))
+		await userService.alterarStatus(status, Number(id))
+		return res.status(204).json()
+	}
+
+	
+	async alterarSenha(req: Request, res: Response) {
+		const { id } = req.params
+		const { senha } = req.body;
+		const userService = new UserService();
+		await userService.alterarSenha(senha, Number(id))
 		return res.status(204).json()
 	}
 
