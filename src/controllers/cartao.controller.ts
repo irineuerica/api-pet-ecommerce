@@ -27,10 +27,11 @@ export class CartaoController {
 	}
 
 	async update(req: Request, res: Response) {
+		const user = getAuthorization(req, res)
 		const { cartao } = req.body;
 		const { id } = req.params
         const cartaoService = new CartaoService();
-		const cartaoAtualizado = await cartaoService.update({ cartao, id: Number(id) })
+		const cartaoAtualizado = await cartaoService.update({ cartao, id: Number(id), userId: user.id})
 		return res.json(cartaoAtualizado)
 
 	}

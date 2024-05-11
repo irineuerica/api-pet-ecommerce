@@ -7,6 +7,7 @@ import { userRepository } from '../repositories/userRepository'
 type SaveCartaoProps = {
     cartao: ICartao
     id: number
+    userId?: number
 }
 
 
@@ -16,6 +17,10 @@ export class CartaoService {
         const newCard = cartaoRepository.create({...cartao, vencimento_mes: cartao.vencimentoMes, vencimento_ano: cartao.vencimentoAno, usuario: user[0]})
         await cartaoRepository.save(newCard)
 
+        if(newCard.principal){
+            await this.setPrincipal(newCard.usuario.id, newCard);
+        }
+        
         return newCard;
     }
 
@@ -39,7 +44,7 @@ export class CartaoService {
     }
 
 
-    async update({ cartao, id }: SaveCartaoProps) {
+    async update({ cartao, id, userId }: SaveCartaoProps) {
 
         const card = await cartaoRepository.findOneBy({ id: Number(id) })
 
@@ -47,7 +52,22 @@ export class CartaoService {
             throw new NotFoundError('Cartão não encontrado')
         }
 
-        const cardNewValue = {...cartao, vencimento_mes: cartao.vencimentoMes, vencimento_ano: cartao.vencimentoAno,}
+        const cardNewValue = {
+            id: cartao.id,
+            numero: cartao.numero,
+            nome: cartao.nome,
+            bandeira: cartao.bandeira,
+            vencimento_mes: cartao.vencimentoMes, 
+            vencimento_ano: cartao.vencimentoAno,
+            principal: cartao.principal,
+            criado_em: cartao.criado_em,
+            atualizado_em: cartao.atualizado_em,
+            usuario: cartao.usuario
+        }
+        
+        if(cardNewValue.principal && userId){
+            await this.setPrincipal(userId, cardNewValue);
+        }
 
         return await cartaoRepository.update(id, cardNewValue);
     }
@@ -62,6 +82,17 @@ export class CartaoService {
             return {...cartao, vencimentoMes: cartao.vencimento_mes, vencimentoAno: cartao.vencimento_ano}
         })
         return cardsFormatted
+
+    }
+
+    async setPrincipal(userId: number, card: Cartao): Promise<any> {
+        const principal = await cartaoRepository.findOne({
+            where: {usuario: {id: userId}, principal: true}});
+        
+        if(principal){
+           await  cartaoRepository.update(principal.id, {...principal, principal: false});
+           await  cartaoRepository.update(card.id, {...card, principal: true});
+        }
 
     }
 }
