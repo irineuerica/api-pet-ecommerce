@@ -8,8 +8,8 @@ export class CartaoController {
 		const {id} = getAuthorization(req, res)
 		const { cartao } = req.body;
 		const cartaoService = new CartaoService();
-		await cartaoService.create({cartao, id});
-		return res.status(204).json()
+		const newCard = await cartaoService.create({cartao, id});
+		return res.json(newCard)
 	}
 
 	async show(req: Request, res: Response) {

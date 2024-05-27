@@ -1,7 +1,7 @@
 import { NotFoundError } from '../helpers/errors.helper'
 import { IEndereco } from '../interfaces/IEndereco'
 import { enderecoRepository } from '../repositories/enderecoRepository'
-import { userRepository } from '../repositories/userRepository'
+import { usuarioRepository } from '../repositories/usuarioRepository'
 
 type SaveEnderecoProps = {
     endereco: IEndereco
@@ -11,7 +11,7 @@ type SaveEnderecoProps = {
 
 export class EnderecoService {
     async create({endereco, id}: SaveEnderecoProps) {
-        const user = await userRepository.findBy({id})
+        const user = await usuarioRepository.findBy({id})
         const newAddress = enderecoRepository.create({...endereco, usuario: user[0]})
         await enderecoRepository.save(newAddress,)
 

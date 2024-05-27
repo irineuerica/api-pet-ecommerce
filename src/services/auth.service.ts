@@ -1,5 +1,5 @@
 import { BadRequestError } from '../helpers/errors.helper'
-import { userRepository } from '../repositories/userRepository'
+import { usuarioRepository } from '../repositories/usuarioRepository'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -11,7 +11,7 @@ type Login = {
 
 export class AuthService {
     async login({ email, senha }: Login) {
-        const user = await userRepository.findOneBy({ email })
+        const user = await usuarioRepository.findOneBy({ email })
         if (!user) {
             throw new BadRequestError('Usuário inválido');
         }

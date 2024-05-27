@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { UserService } from '../services/user.service'
+import { UsuarioService } from '../services/usuario.service'
 
-export class UserController {
+export class UsuarioController {
 
 	async create(req: Request, res: Response) {
 		const { usuario } = req.body;
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		const user = await userService.create(usuario);
 
 		return res.json({
@@ -16,7 +16,7 @@ export class UserController {
 
 	async show(req: Request, res: Response) {
 		const { id } = req.params;
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		const user = await userService.show(Number(id));
 		return res.json(user)
 	}
@@ -24,7 +24,7 @@ export class UserController {
 	async alterarStatus(req: Request, res: Response) {
 		const { id } = req.params
 		const { status } = req.body;
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		await userService.alterarStatus(status, Number(id))
 		return res.status(204).json()
 	}
@@ -33,7 +33,7 @@ export class UserController {
 	async alterarSenha(req: Request, res: Response) {
 		const { id } = req.params
 		const { senha } = req.body;
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		await userService.alterarSenha(senha, Number(id))
 		return res.status(204).json()
 	}
@@ -41,21 +41,21 @@ export class UserController {
 	async update(req: Request, res: Response) {
 		const { usuario } = req.body;
 		const { id } = req.params
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		const user = await userService.update({ usuario, id: Number(id) })
 		return res.json(user)
 
 	}
 
 	async list(req: Request, res: Response) {
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		const users = await userService.list();
 		res.json(users);
 	}
 
 	async setAsAdmin(req: Request, res: Response) {
 		const { id } = req.params
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		const user = await userService.setAsAdmin(Number(id));
 
 		return res.json(user)
@@ -63,7 +63,7 @@ export class UserController {
 
 	async change(req: Request, res: Response) {
 		const { id } = req.params
-		const userService = new UserService();
+		const userService = new UsuarioService();
 		const user = await userService.setAsAdmin(Number(id));
 
 		return res.json(user)

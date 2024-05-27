@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { UnauthorizedError } from '../helpers/errors.helper'
-import { userRepository } from '../repositories/userRepository'
+import { usuarioRepository } from '../repositories/usuarioRepository'
 import jwt from 'jsonwebtoken'
 
 type JwtPayload = {
@@ -22,7 +22,7 @@ export const authMiddleware = async (
 
 	const { id } = jwt.verify(token, process.env.JWT_PASS ?? '') as JwtPayload
 
-	const user = await userRepository.findOneBy({ id })
+	const user = await usuarioRepository.findOneBy({ id })
 
 	if (!user) {
 		throw new UnauthorizedError('Não autorizado')

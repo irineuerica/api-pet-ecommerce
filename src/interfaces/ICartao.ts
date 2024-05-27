@@ -1,4 +1,4 @@
-import { User } from "../entities/User"
+import { Usuario } from "../entities/Usuario"
 
 export interface ICartao {
     id: number	
@@ -10,5 +10,6 @@ export interface ICartao {
 	principal: boolean
 	criado_em: Date
 	atualizado_em: Date
-	usuario: User;
+	usuario: Usuario;
+	cvv: string;
 }

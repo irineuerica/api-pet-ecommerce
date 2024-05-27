@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { User } from './User'
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm'
+import { Usuario } from './Usuario'
 
 @Entity('enderecos')
 export class Endereco {
@@ -48,9 +48,8 @@ export class Endereco {
 	@Column({ type: 'date' })
 	atualizado_em: Date
 
-	@ManyToOne(() => User, usuario => usuario.enderecos, { eager: true })
+	@ManyToOne(() => Usuario, usuario => usuario.enderecos)
 	@JoinColumn({ name: 'usuario_id', referencedColumnName: 'id' })
-	usuario: User;
-
+	usuario: Usuario;
 
 }

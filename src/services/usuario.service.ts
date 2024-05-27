@@ -10,7 +10,7 @@ type UpdateUserProps = {
 }
 
 
-export class UserService {
+export class UsuarioService {
     async create( usuario : IUsuario) {
         const userExists = await usuarioRepository.findOneBy({ email: usuario.email })
 

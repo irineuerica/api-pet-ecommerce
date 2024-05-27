@@ -8,8 +8,8 @@ export class EnderecoController {
 		const {id} = getAuthorization(req, res)
 		const { endereco } = req.body;
 		const enderecoService = new EnderecoService();
-		await enderecoService.create({endereco, id});
-		return res.status(204).json()
+		const novoEndereco = await enderecoService.create({endereco, id});
+		return res.json(novoEndereco)
 	}
 
 	async show(req: Request, res: Response) {

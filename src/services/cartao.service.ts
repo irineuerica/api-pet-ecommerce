@@ -2,7 +2,7 @@ import { Cartao } from '../entities/Cartao'
 import { NotFoundError } from '../helpers/errors.helper'
 import { ICartao } from '../interfaces/ICartao'
 import { cartaoRepository } from '../repositories/cartaoRepository'
-import { userRepository } from '../repositories/userRepository'
+import { usuarioRepository } from '../repositories/usuarioRepository'
 
 type SaveCartaoProps = {
     cartao: ICartao
@@ -13,7 +13,7 @@ type SaveCartaoProps = {
 
 export class CartaoService {
     async create({cartao, id}: SaveCartaoProps) {
-        const user = await userRepository.findBy({id})
+        const user = await usuarioRepository.findBy({id})
         const newCard = cartaoRepository.create({...cartao, vencimento_mes: cartao.vencimentoMes, vencimento_ano: cartao.vencimentoAno, usuario: user[0]})
         await cartaoRepository.save(newCard)
 
@@ -62,7 +62,8 @@ export class CartaoService {
             principal: cartao.principal,
             criado_em: cartao.criado_em,
             atualizado_em: cartao.atualizado_em,
-            usuario: cartao.usuario
+            usuario: cartao.usuario,
+            cvv: cartao.cvv
         }
         
         if(cardNewValue.principal && userId){

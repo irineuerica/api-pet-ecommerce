@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { User } from './User'
+import { Usuario } from './Usuario'
 
 @Entity('cartoes')
 export class Cartao {
@@ -21,6 +21,9 @@ export class Cartao {
 	@Column({ type: 'text' })
 	bandeira: string
 
+	@Column({ type: 'text' })
+	cvv: string
+
     @Column({ type: 'bool' })
 	principal: boolean
 
@@ -30,8 +33,8 @@ export class Cartao {
 	@Column({ type: 'date' })
 	atualizado_em: Date
 
-	@ManyToOne(() => User, usuario => usuario.cartoes, { eager: true })
+	@ManyToOne(() => Usuario, usuario => usuario.cartoes)
 	@JoinColumn({ name: 'usuario_id', referencedColumnName: 'id' })
-	usuario: User;
+	usuario: Usuario;
 
 }

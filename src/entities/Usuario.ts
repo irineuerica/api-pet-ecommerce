@@ -3,7 +3,7 @@ import { Endereco } from './Endereco'
 import { Cartao } from './Cartao'
 
 @Entity('usuarios')
-export class User {
+export class Usuario {
 	@PrimaryGeneratedColumn()
 	id: number
 
