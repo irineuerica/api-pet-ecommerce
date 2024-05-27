@@ -43,9 +43,9 @@ export class User {
 	@Column({ type: 'date' })
 	atualizado_em: Date
 
-	@OneToMany(() => Endereco, endereco => endereco.usuario)
+	@OneToMany(() => Endereco, endereco => endereco.usuario, { eager: true })
 	enderecos: Endereco[];
 
-	@OneToMany(() => Cartao, cartao => cartao.usuario)
+	@OneToMany(() => Cartao, cartao => cartao.usuario, { eager: true })
 	cartoes: Cartao[];
 }
