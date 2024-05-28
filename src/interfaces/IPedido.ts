@@ -22,6 +22,7 @@ export interface CreatePedido {
     items: ItemCarrinhoInterface[];
     data: Date;
     valor: number;
+    subtotal: number;
     status: StatusPedidoEnum;
     frete: number,
     endereco:  IEndereco,

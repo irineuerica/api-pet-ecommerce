@@ -13,9 +13,9 @@ export class Cupom {
     @Column({ type: 'decimal' })
     valor: number
 
-    @OneToOne(type => Pedido, { eager: true })
+    @OneToOne(type => Pedido)
     @JoinColumn({ name: 'pedido_origem_id', referencedColumnName: 'id' })
-    pedidorigem?: Pedido
+    pedidoOrigem?: Pedido
 
     @ManyToOne(type => Usuario)
     @JoinColumn({ name: 'usuario_id', referencedColumnName: 'id' })

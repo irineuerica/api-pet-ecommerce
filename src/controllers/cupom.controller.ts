@@ -11,7 +11,8 @@ export class CupomController {
         return res.json(novoCupom)
     }
 
-    async listAll(req: Request, res: Response) {
+    async listAll(req: Request, res: Response) 
+    {
         const cupomService = new CupomService()
         const cupons = await cupomService.list()
         res.json(cupons);
@@ -19,7 +20,6 @@ export class CupomController {
 
     async listByUser(req: Request, res: Response) {
         const {id} = getAuthorization(req, res)
-        console.log('id>>>', id)
         const cupomService = new CupomService()
         const cupons = await cupomService.listByUser(id)
         res.json(cupons);
