@@ -32,6 +32,14 @@ interface listByUser {
 interface showProps {
     pedidoId: number
 }
+
+
+interface AnalysisProps {
+    produtosId: number[],
+    dataInicio: Date,
+    dataFim: Date
+}
+
 export class PedidoService {
     async create({ pedido, id }: CreatePedidoProps) {
         const user = await usuarioRepository.findBy({ id })
@@ -163,5 +171,10 @@ export class PedidoService {
         }
         //@ts-ignore
         await cupomRepository.save(cupom)
+    }
+
+    
+    async analysis({produtosId, dataInicio, dataFim}: AnalysisProps) {
+        return await itemPedidoRepository.analisys(produtosId, dataInicio, dataFim)
     }
 }

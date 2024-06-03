@@ -59,4 +59,11 @@ export class PedidoController {
         return res.json(pedido)
     }
 
+    async analysis(req: Request, res: Response) {
+        const { produtosId, dataInicio, dataFim } = req.body;
+        const pedidoService = new PedidoService()
+        const pedido = await pedidoService.analysis({produtosId, dataInicio, dataFim })
+        return res.json(pedido)
+    }
+
 }
