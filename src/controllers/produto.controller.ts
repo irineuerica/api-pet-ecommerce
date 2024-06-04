@@ -16,4 +16,10 @@ export class ProdutoController {
         res.json(produtos);
     }
 
+    async listCategorias(req: Request, res: Response) {
+        const produtoService = new ProdutoService();
+        const categorias = await produtoService.listCategorias();
+        res.json(categorias);
+    }
+
 }

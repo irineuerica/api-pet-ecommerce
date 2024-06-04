@@ -40,6 +40,13 @@ interface AnalysisProps {
     dataFim: Date
 }
 
+
+interface TrocaDevolucaoProps {
+    itemPedidoId: number
+    status: StatusPedido,
+    devolverEstoque: boolean
+}
+
 export class PedidoService {
     async create({ pedido, id }: CreatePedidoProps) {
         const user = await usuarioRepository.findBy({ id })
@@ -160,7 +167,7 @@ export class PedidoService {
         return await statusPedidoRepository.find()
     }
 
-    async updateStatusGenerateCupom({ itemPedidoId, status }: UpdateStatusItemProps) {
+    async updateStatusGenerateCupom({ itemPedidoId, status, devolverEstoque }: TrocaDevolucaoProps) {
         const itemPedido = await this.updateStatusItem({ itemPedidoId, status });
         const cupom = {
             codigo: `TROCA-${itemPedido.id}-2024`,
@@ -169,11 +176,24 @@ export class PedidoService {
             pedidoOrigem: itemPedido.pedido.id,
             usuario: itemPedido.pedido?.usuario
         }
+
         //@ts-ignore
         await cupomRepository.save(cupom)
+
+        if(!devolverEstoque)
+            return
+
+        const estoqueProduto = await estoqueRepository.findOneBy({produto: {id: itemPedido.produto.id}})
+        if(!estoqueProduto){
+            throw new Error(`Estoque não encontrado.`);
+        }
+        estoqueProduto.quantidadeAtual += 1;
+        estoqueProduto.quantidadeVendida -=1 ;
+
+        await estoqueRepository.save(estoqueProduto)   
+       
     }
 
-    
     async analysis({produtosId, dataInicio, dataFim}: AnalysisProps) {
         return await itemPedidoRepository.analisys(produtosId, dataInicio, dataFim)
     }

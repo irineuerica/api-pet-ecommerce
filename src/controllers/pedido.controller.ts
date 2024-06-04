@@ -53,9 +53,9 @@ export class PedidoController {
     }
 
     async updateStatusGenerateCupom(req: Request, res: Response) {
-        const { status, id } = req.body;
+        const { status, id, devolverEstoque } = req.body;
         const pedidoService = new PedidoService()
-        const pedido = await pedidoService.updateStatusGenerateCupom({status, itemPedidoId: id})
+        const pedido = await pedidoService.updateStatusGenerateCupom({status, itemPedidoId: id, devolverEstoque})
         return res.json(pedido)
     }
 
