@@ -8,6 +8,7 @@ import produtoRoutes from "./produto.routes";
 import cupomRoutes from './cupom.routes'
 import pedidoRoutes from './pedido.routes'
 import estoqueRoutes from './estoque.routes'
+import utilRoutes from './utils.routes'
 
 export const routes = Router()
 
@@ -17,6 +18,7 @@ routes.use('/produto', produtoRoutes);
 
 
 routes.use(authMiddleware)
+routes.use('/utils', utilRoutes);
 routes.use('/cupom', cupomRoutes);
 routes.use('/user', userRoutes);
 routes.use('/endereco', enderecoRoutes);
