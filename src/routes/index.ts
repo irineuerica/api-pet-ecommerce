@@ -7,6 +7,7 @@ import cartaoRoutes from './cartao.routes'
 import produtoRoutes from "./produto.routes";
 import cupomRoutes from './cupom.routes'
 import pedidoRoutes from './pedido.routes'
+import estoqueRoutes from './estoque.routes'
 
 export const routes = Router()
 
@@ -21,3 +22,4 @@ routes.use('/user', userRoutes);
 routes.use('/endereco', enderecoRoutes);
 routes.use('/cartao', cartaoRoutes);
 routes.use('/pedido', pedidoRoutes);
+routes.use('/estoque', estoqueRoutes)
