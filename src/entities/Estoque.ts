@@ -14,7 +14,7 @@ export class Estoque {
     quantidadeVendida: number
 
     @Column({ type: 'text' })
-    motivo: string
+    fornecedor: string
 
     @Column({ type: 'decimal' })
     custo: number

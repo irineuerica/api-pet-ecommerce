@@ -2,6 +2,7 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGener
 import {Categoria} from "./Categoria";
 import {Estoque} from "./Estoque";
 import { ItemPedido } from './ItemPedido';
+import { Precificacao } from './Precificacao';
 
 @Entity('produtos')
 export class Produto {
@@ -17,8 +18,21 @@ export class Produto {
     @Column({ type: 'decimal' })
     valor: number
 
+    @Column({ type: 'boolean' })
+    status: boolean
+
+    @Column({ type: 'text' })
+    motivoAtivacao: string
+
+    @Column({ type: 'text' })
+    motivoInativacao: string
+
     @OneToOne(type=> Estoque, estoque => estoque.produto)
     estoque: Estoque
+
+    @ManyToOne(type => Precificacao, precificacao => precificacao.produtos, { eager: true })
+    @JoinColumn({name: 'precificacao_id', referencedColumnName: 'id' })
+    precificacao: Precificacao
 
     @ManyToOne(type => Categoria, categoria => categoria.produtos, { eager: true })
     @JoinColumn({name: 'categoria_id', referencedColumnName: 'id' })
@@ -26,4 +40,5 @@ export class Produto {
 
     @OneToMany(() => ItemPedido, itemPedido => itemPedido.produto)
     itensPedido: ItemPedido[];
+
 }

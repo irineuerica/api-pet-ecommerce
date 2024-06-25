@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm'
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm'
 import {Produto} from "./Produto";
 
 @Entity('precificacoes')
@@ -18,7 +18,7 @@ export class Precificacao {
     @Column({ type: 'date' })
     atualizado_em: Date
 
-    @OneToOne(type => Produto,)
-    produto: Produto;
+    @OneToMany(type => Produto, produto => produto.precificacao)
+    produtos: Produto[];
 
 }

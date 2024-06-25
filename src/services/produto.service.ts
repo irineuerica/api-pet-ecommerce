@@ -15,14 +15,24 @@ export class ProdutoService {
         return produto
     }
 
+    async create(produto: Produto) {
+        return await produtoRepository.save(produto)
+    }
 
+    async update(produto: Produto) {
+        const produtoSalvo = await produtoRepository.findOneBy({id: produto.id})
+        if(!produtoSalvo){
+            throw new Error('Produto não encontrado')
+        }
+        return await produtoRepository.save(produto)
+    }
 
     async list(): Promise<Produto[]> {
         return await produtoRepository.find({relations: ['estoque', 'categoria']})
     }
 
     async listActive(): Promise<Produto[]> {
-        return await produtoRepository.find({relations: ['estoque', 'categoria'], where: {estoque: {quantidadeAtual: MoreThan(0)}}})
+        return await produtoRepository.find({relations: ['estoque', 'categoria'], where: {estoque: {quantidadeAtual: MoreThan(0)}, status: true}})
     }
 
 

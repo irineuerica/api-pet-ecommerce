@@ -16,10 +16,31 @@ export class ProdutoController {
         res.json(produtos);
     }
 
+    async listAll(req: Request, res: Response) {
+        const produtoService = new ProdutoService();
+        const produtos = await produtoService.list();
+        res.json(produtos);
+    }
+
+
     async listCategorias(req: Request, res: Response) {
         const produtoService = new ProdutoService();
         const categorias = await produtoService.listCategorias();
         res.json(categorias);
+    }
+
+    async create(req: Request, res: Response) {
+        const {produto} = req.body;
+        const produtoService = new ProdutoService();
+        const novoProduto = await produtoService.create(produto);
+        res.json(novoProduto);
+    }
+
+    async update(req: Request, res: Response) {
+        const {produto} = req.body;
+        const produtoService = new ProdutoService();
+        const produtoSalvo = await produtoService.create(produto);
+        res.json(produtoSalvo);
     }
 
 }
